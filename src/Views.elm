@@ -1,57 +1,51 @@
-module Views exposing (..)
+module Views exposing (viewCharts)
 
-import Html exposing (Html, text, li)
-import Charty.LineChart as LineChart
-import Dict.Extra as DictExtra
-import Dict exposing (Dict)
-import Types exposing (..)
-import List.Extra exposing (groupsOf)
+import Html exposing (Html, span, text, br, div)
+import Html.Attributes exposing (style)
+import Chart exposing (graph)
+import Types exposing (Lang, LangGrouped, Msg)
+import ListHelper
+
+
+colorWheel =
+    [ ( "#ffdef6", "#ff00ff" )
+    , ( "#ceeef6", "#cee0ff" )
+    ]
+
+
+mixWithColors : LangGrouped -> List ( ( String, List Lang ), ( String, String ) )
+mixWithColors langs =
+    ListHelper.zipWithCycle langs colorWheel
 
 
 viewCharts : LangGrouped -> List (Html Msg)
 viewCharts langs =
+    langs
+        |> mixWithColors
+        |> List.map langChart
+
+
+langChart : ( ( String, List Lang ), ( String, String ) ) -> Html Msg
+langChart ( ( name, data ), ( lColor, sColor ) ) =
     let
-        renderChart langList =
-            LineChart.view LineChart.defaults (sampleDataset langList)
+        chart =
+            data
+                |> parseAsPairs
+                |> graph sColor
     in
-        langs
-            |> groupsOf 5
-            |> List.map renderChart
+        div []
+            [ div [ style [ ( "background-color", lColor ) ] ]
+                [ span [ style [ ( "color", sColor ) ] ] [ text name ]
+                , chart
+                ]
+            , br [] []
+            , br [] []
+            ]
 
 
-makeListItem : ( String, List Lang ) -> Html Msg
-makeListItem ( name, stats ) =
-    let
-        stars =
-            getFirstStars stats
-    in
-        li [] [ text (name ++ " - " ++ (toString stars)) ]
-
-
-getFirstStars : List Lang -> Int
-getFirstStars stats =
-    stats
-        |> List.head
-        |> Maybe.map .stars
-        |> Maybe.withDefault 0
-
-
-sampleDataset : LangGrouped -> LineChart.Dataset
-sampleDataset model =
-    List.map mapLang model
-
-
-mapModelToLangGrouped : Model -> LangGrouped
-mapModelToLangGrouped model =
-    model
-        |> DictExtra.groupBy .name
-        |> Dict.toList
-        |> List.sortBy (\( _, stats ) -> getFirstStars stats)
+parseAsPairs : List Lang -> List ( Float, Float )
+parseAsPairs dataLang =
+    dataLang
+        |> List.map (\{ stars, year, month } -> ( toFloat ((year * 100) + month), toFloat stars ))
+        |> List.sortBy (\( date, _ ) -> date)
         |> List.reverse
-
-
-mapLang : ( String, List Lang ) -> LineChart.Series
-mapLang ( name, stats ) =
-    { label = name
-    , data = List.map (\lang -> ( toFloat (lang.year + lang.month), toFloat (lang.stars) )) stats
-    }

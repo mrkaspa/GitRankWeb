@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Http
+import Plot exposing (Point)
 
 
 type alias Lang =
@@ -22,3 +23,5 @@ type alias LangGrouped =
 
 type Msg
     = DataLoaded (Result Http.Error (List Lang))
+    | HoverRangeFrame (Maybe Point)
+    | HoverBars (Maybe Point)

@@ -6,6 +6,8 @@ import Json.Decode exposing (int, string, list, Decoder)
 import Json.Decode.Pipeline exposing (decode, required)
 import Types exposing (..)
 import Views exposing (..)
+import Dict.Extra as DictExtra
+import Dict exposing (Dict)
 
 
 main : Program Never Model Msg
@@ -72,3 +74,29 @@ langDecoder =
         |> required "stats_stars" int
         |> required "stats_year" int
         |> required "stats_month" int
+
+
+getFirstStars : List Lang -> Int
+getFirstStars stats =
+    stats
+        |> List.head
+        |> Maybe.map .stars
+        |> Maybe.withDefault 0
+
+
+makeListItem : ( String, List Lang ) -> Html Msg
+makeListItem ( name, stats ) =
+    let
+        stars =
+            getFirstStars stats
+    in
+        li [] [ text (name ++ " - " ++ (toString stars)) ]
+
+
+mapModelToLangGrouped : Model -> LangGrouped
+mapModelToLangGrouped model =
+    model
+        |> DictExtra.groupBy .name
+        |> Dict.toList
+        |> List.sortBy (\( _, stats ) -> getFirstStars stats)
+        |> List.reverse
