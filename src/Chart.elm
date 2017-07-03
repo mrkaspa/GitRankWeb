@@ -1,17 +1,33 @@
-module Chart exposing (graph)
+module Chart exposing (graph, drawCircle)
 
 import Plot exposing (..)
 import Svg exposing (Svg)
 import Svg.Attributes exposing (..)
+import PageCss exposing (blueFontColor)
 import Types exposing (Msg)
 
 
-circle : String -> Float -> Float -> Svg Msg
-circle color x y =
+drawCircle : String -> Svg Msg
+drawCircle color =
+    Svg.svg [ height "70", width "70", viewBox "0 0 70 70" ]
+        [ Svg.circle
+            [ r "15"
+            , cx "35"
+            , cy "35"
+            , stroke "transparent"
+            , strokeWidth "3px"
+            , fill color
+            ]
+            []
+        ]
+
+
+circlePoint : String -> Float -> Float -> Svg Msg
+circlePoint color x y =
     Svg.g
         [ height "100", width "100", viewBox "0 0 100 100" ]
         [ Svg.text_
-            [ fill "#2e3192"
+            [ fill blueFontColor
             , strokeWidth "1px"
             , textAnchor "middle"
             , Svg.Attributes.x "25"
@@ -41,7 +57,7 @@ circle color x y =
 
 rangeFrameHintDot : String -> ( Float, Float ) -> DataPoint Msg
 rangeFrameHintDot color ( x, y ) =
-    { view = Just (circle color x y)
+    { view = Just (circlePoint color x y)
     , xLine = Nothing
     , yLine = Nothing
     , xTick = Nothing
