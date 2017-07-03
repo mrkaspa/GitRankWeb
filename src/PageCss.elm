@@ -1,4 +1,4 @@
-module PageCss exposing (..)
+module PageCss exposing (css, blueFontColor, colorWheel)
 
 import Css exposing (..)
 import Css.Elements exposing (body, h1, h2, div, ul, li, p, svg, img, a)
