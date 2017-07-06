@@ -1,7 +1,7 @@
 module Views exposing (view)
 
-import Html exposing (Html, h1, h2, text, div, ul, li, p, img, br, a)
-import Html.Attributes exposing (id, style, class, src, href)
+import Html exposing (Html, h1, h2, text, div, ul, li, p, img, br, a, i)
+import Html.Attributes exposing (id, style, class, src, href, attribute)
 import Chart exposing (graph, drawCircle)
 import Types exposing (Model, Lang, LangGrouped, Msg)
 import PageCss exposing (colorWheel)
@@ -31,7 +31,16 @@ view model =
 viewHeader : Html Msg
 viewHeader =
     div [ id "header" ]
-        [ h1 [] [ text "GitRank" ]
+        [ h1 []
+            [ text "GitRank" ]
+        , div []
+            [ a [ href "https://www.behance.net/juanvega90d39a" ]
+                [ i [ class "fa fa-behance-square", attribute "aria-hidden" "true" ] []
+                ]
+            , a [ href "https://www.github.com/mrkaspa" ]
+                [ i [ class "fa fa-github-square", attribute "aria-hidden" "true" ] []
+                ]
+            ]
         ]
 
 

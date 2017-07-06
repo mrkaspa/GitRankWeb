@@ -39,11 +39,22 @@ css =
             [ backgroundColor (hex "f3e9e9")
             , fontWeight bold
             , fontSize (em 2.0)
+            , position relative
             , children
                 [ h1
                     [ margin (px 0)
                     , padding (px 50)
                     , color (hex blueFontColor)
+                    ]
+                , div
+                    [ position absolute
+                    , top (px 0)
+                    , right (px 3)
+                    , children
+                        [ a
+                            [ margin (px 5)
+                            ]
+                        ]
                     ]
                 ]
             ]
