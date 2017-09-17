@@ -2,13 +2,14 @@ module PageCss exposing (css, blueFontColor, colorWheel)
 
 import Css exposing (..)
 import Css.Elements exposing (body, h1, h2, div, ul, li, p, svg, img, a)
-import Css.Namespace exposing (namespace)
 
 
+blueFontColor : String
 blueFontColor =
     "#2e3192"
 
 
+colorWheel : List ( String, String )
 colorWheel =
     [ ( "#ffdef6", "#ff00ff" )
     , ( "#dbefec", "#00a7a1" )
@@ -19,6 +20,7 @@ colorWheel =
     ]
 
 
+css : Stylesheet
 css =
     stylesheet
         [ body
