@@ -1,7 +1,6 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, ul, li, h1)
-import Html.Attributes exposing (id)
 import Http
 import Json.Decode exposing (int, string, list, Decoder)
 import Json.Decode.Pipeline exposing (decode, required)
