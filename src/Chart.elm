@@ -1,9 +1,9 @@
-module Chart exposing (graph, drawCircle)
+module Chart exposing (drawCircle, graph)
 
+import PageCss exposing (blueFontColor)
 import Plot exposing (..)
 import Svg exposing (Svg)
 import Svg.Attributes exposing (..)
-import PageCss exposing (blueFontColor)
 import Types exposing (Msg)
 
 
@@ -42,7 +42,7 @@ circlePoint color x y =
             , Svg.Attributes.y "25"
             , fontSize "0.7em"
             ]
-            [ Svg.text (toString ((round x) // 100) ++ " / " ++ toString ((round x) % 100)) ]
+            [ Svg.text (toString (round x // 100) ++ " / " ++ toString (round x % 100)) ]
         , Svg.circle
             [ r "8"
             , cx "25"

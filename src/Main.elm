@@ -1,8 +1,8 @@
 module Main exposing (..)
 
-import Html exposing (Html, div, text, ul, li, h1)
+import Html exposing (Html, div, h1, li, text, ul)
 import Http
-import Json.Decode exposing (int, string, list, Decoder)
+import Json.Decode exposing (Decoder, int, list, string)
 import Json.Decode.Pipeline exposing (decode, required)
 import Types exposing (..)
 import Views
@@ -14,7 +14,7 @@ main =
         { init = init
         , view = Views.view
         , update = update
-        , subscriptions = (\_ -> Sub.none)
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -39,7 +39,7 @@ getData =
         url =
             "/load_info"
     in
-        Http.send DataLoaded (Http.get url langsDecoder)
+    Http.send DataLoaded (Http.get url langsDecoder)
 
 
 langsDecoder : Decoder (List Lang)

@@ -1,7 +1,7 @@
-module PageCss exposing (css, blueFontColor, colorWheel)
+module PageCss exposing (blueFontColor, colorWheel, css)
 
 import Css exposing (..)
-import Css.Elements exposing (body, h1, h2, div, ul, li, p, svg, img, a)
+import Css.Elements exposing (a, body, div, h1, h2, img, li, p, svg, ul)
 
 
 blueFontColor : String

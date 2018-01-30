@@ -1,13 +1,13 @@
 module Views exposing (view)
 
-import Html exposing (Html, h1, h2, text, div, ul, li, p, img, br, a, i)
-import Html.Attributes exposing (id, style, class, src, href, attribute)
-import Chart exposing (graph, drawCircle)
-import Types exposing (Model, Lang, LangGrouped, Msg)
-import PageCss exposing (colorWheel)
-import Dict.Extra as DictExtra
+import Chart exposing (drawCircle, graph)
 import Dict exposing (Dict)
+import Dict.Extra as DictExtra
+import Html exposing (Html, a, br, div, h1, h2, i, img, li, p, text, ul)
+import Html.Attributes exposing (attribute, class, href, id, src, style)
 import ListHelper
+import PageCss exposing (colorWheel)
+import Types exposing (Lang, LangGrouped, Model, Msg)
 
 
 view : Model -> Html Msg
@@ -19,13 +19,13 @@ view model =
         top =
             List.take 5 langs
     in
-        div [ id "page" ]
-            [ viewHeader
-            , viewTop top
-            , div [ id "stats" ]
-                (viewCharts langs)
-            , viewFooter
-            ]
+    div [ id "page" ]
+        [ viewHeader
+        , viewTop top
+        , div [ id "stats" ]
+            (viewCharts langs)
+        , viewFooter
+        ]
 
 
 viewHeader : Html Msg
@@ -52,13 +52,13 @@ viewTop top =
                 |> mixWithColors
                 |> List.map makeListItem
     in
-        div [ id "top" ]
-            [ div [ id "content" ]
-                [ img [ src "/static/git.png" ] []
-                , p [] [ text "The perfect place to check the growing of your favorites programming languages " ]
-                ]
-            , ul [] topWithColors
+    div [ id "top" ]
+        [ div [ id "content" ]
+            [ img [ src "/static/git.png" ] []
+            , p [] [ text "The perfect place to check the growing of your favorites programming languages " ]
             ]
+        , ul [] topWithColors
+        ]
 
 
 viewCharts : LangGrouped -> List (Html Msg)
@@ -93,10 +93,10 @@ langChart ( ( name, data ), ( lColor, sColor ) ) =
                 |> parseAsPairs
                 |> graph sColor
     in
-        div [ class "chart", style [ ( "background-color", lColor ) ] ]
-            [ h2 [ style [ ( "color", sColor ) ] ] [ text name ]
-            , chart
-            ]
+    div [ class "chart", style [ ( "background-color", lColor ) ] ]
+        [ h2 [ style [ ( "color", sColor ) ] ] [ text name ]
+        , chart
+        ]
 
 
 makeListItem : ( ( String, List Lang ), ( String, String ) ) -> Html Msg
@@ -105,19 +105,19 @@ makeListItem ( ( name, data ), ( lColor, sColor ) ) =
         stars =
             getFirstStars data
     in
-        li [ style [ ( "backgroundColor", lColor ) ] ]
-            [ div []
-                [ drawCircle sColor
+    li [ style [ ( "backgroundColor", lColor ) ] ]
+        [ div []
+            [ drawCircle sColor
+            ]
+        , div []
+            [ p []
+                [ text name
                 ]
-            , div []
-                [ p []
-                    [ text name
-                    ]
-                , p []
-                    [ text (toString stars)
-                    ]
+            , p []
+                [ text (toString stars)
                 ]
             ]
+        ]
 
 
 parseAsPairs : List Lang -> List ( Float, Float )
